@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>DataTable</title>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css"></link>
+
+
+
+
+</head>
+<body>
+    <div style="width:80%; height:100%; margin:auto;">
+
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<button type="button" id="hataButonu" style="background-color:#b3ffb3; color:black; border-color: black;">Toggle tip on loding failure</button>
+<div id="hata" style="display: none">
+    <p style="background-color:black; color:white; font-weight: bold;">http protokü ile çalıştırılmazsa hata verir. http protokolü için => localhost veya sunucu üzerinde çalıştırılmalı.</p>
+    <p style="background-color:black; color:white; font-weight: bold;">Must work with http protocole unless it throws an error. For http protocole => should work on localhost or server.</p>
+</div>
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable( {
+                ajax: 'ajaxload.txt',
+                columns: [
+                    { data: 'id' },
+                    { data: 'name' },
+                    { data: 'position' },
+                    { data: 'office' },
+                    { data: 'extn' },
+                    { data: 'start_date' },
+                    { data: 'salary' }
+                ],
+                rowReorder: {
+                    dataSrc: 'id'
+                }
+            } );
+        } );
+
+        $(function(){
+            $('#hataButonu').click(function(){
+                $('#hata').fadeToggle(1000);
+            });
+
+        });
+    </script>
+</body>
+
+</html>
