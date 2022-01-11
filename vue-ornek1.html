@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div id=app align=center v-on:mousemove="kordinat" style="position:fixed; height:100%; width:100%;">
+<div id=app align=center v-on:mousemove="kordinat(2,$event)" style="position:fixed; height:100%; width:100%;">
   <h1 v-once>{{title}}</h1>
   <p>{{ aciklama }}</p>
   <p>{{ yazdir() }}</p>
@@ -17,7 +17,8 @@
   <br><br>
   <p v-html="github"></p>
   <br><br>
-  <button v-on:click="tikla">Arttır</button>
+  <button v-on:click=counter++>Arttır</button>
+  <button v-on:click="arti(3)">Arttır</button>
   <p>{{ counter }}</p>
   <br><br>
   <p>{{ x + ',' + y }}</p>
@@ -28,7 +29,7 @@
 new Vue({
 el : "#app",
 data : {
-		title : "Deneme Başlık",
+		title : "Vue.js Örnek",
     aciklama : "input'a içerik giriniz.",
     link : 'https://github.com/N-Anil-D/MyExamples',
     github :   '<a href="https://github.com/N-Anil-D/MyExamples">Github</a>',
@@ -45,10 +46,11 @@ methods : {
       this.title = "string değişimi"
     	return this.title;
     },
-		tikla : function(){
-      this.counter++;
+		arti : function(inc){
+      this.counter += inc;
     },
-		kordinat : function(event){
+		kordinat : function(inc,event){
+      this.counter += inc;
       this.x = event.clientX;
       this.y = event.clientY;
     },
