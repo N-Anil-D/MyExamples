@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr-TR">
+<head>
+<title>Vue.js öğreniyorum</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+
+<body>
+<div id=app align=center v-on:mousemove="kordinat" style="position:fixed; height:100%; width:100%;">
+  <h1 v-once>{{title}}</h1>
+  <p>{{ aciklama }}</p>
+  <p>{{ yazdir() }}</p>
+  <input type="text" v-on:input="baslikDegistir">
+  <br><br>
+  <a v-bind:href="link">Github</a>
+  <br><br>
+  <p v-html="github"></p>
+  <br><br>
+  <button v-on:click="tikla">Arttır</button>
+  <p>{{ counter }}</p>
+  <br><br>
+  <p>{{ x + ',' + y }}</p>
+  <p>{{ x }},{{ y }}</p>
+</div>
+
+<script type="text/javascript">
+new Vue({
+el : "#app",
+data : {
+		title : "Deneme Başlık",
+    aciklama : "input'a içerik giriniz.",
+    link : 'https://github.com/N-Anil-D/MyExamples',
+    github :   '<a href="https://github.com/N-Anil-D/MyExamples">Github</a>',
+    counter : 0,
+    x : 0,
+    y : 0,
+    
+},
+methods : {
+		baslikDegistir : function(event){
+    	this.aciklama = event.target.value;
+    },
+		yazdir : function(){
+      this.title = "string değişimi"
+    	return this.title;
+    },
+		tikla : function(){
+      this.counter++;
+    },
+		kordinat : function(event){
+      this.x = event.clientX;
+      this.y = event.clientY;
+    },
+	
+}
+});
+</script>
+
+</body>
+</html>
