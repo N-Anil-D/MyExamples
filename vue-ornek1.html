@@ -11,7 +11,7 @@
   <h1 v-once>{{title}}</h1>
   <p>{{ aciklama }}</p>
   <p>{{ yazdir() }}</p>
-  <input type="text" v-on:input="baslikDegistir">
+  <input type="text" v-on:input="baslikDegistir" v-on:keyup.enter="showAlert">
   <br><br>
   <a v-bind:href="link">Github</a>
   <br><br>
@@ -23,6 +23,11 @@
   <br><br>
   <p>{{ x + ',' + y }}</p>
   <p>{{ x }},{{ y }}</p>
+
+  <div style="height:100px; width:100%; background-color:#cecece;" v-on:mousemove.stop>
+    <p>mousemove disabled here</p>
+  </div>
+  <br />
 </div>
 
 <script type="text/javascript">
@@ -54,6 +59,9 @@ methods : {
       this.x = event.clientX;
       this.y = event.clientY;
     },
+    showAlert : function(event){
+      alert(event.target.value);
+    }
 	
 }
 });
