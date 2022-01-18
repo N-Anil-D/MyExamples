@@ -1,0 +1,97 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style type="text/css">
+  #effect {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.highlight {
+  background-color: red;
+  width: 200px !important;
+}
+
+.shrink {
+  background-color: black;
+  width: 50px !important;
+}
+.fontCss1{
+  color: rgb(0, 195, 255);
+}
+.bgCss1{
+  background-color:rgb(121, 121, 121);
+}
+.progress{
+	background-color: rgba(0, 255, 34, 0.4);
+  width: 100px;
+	height: 20px;
+}
+</style>
+
+<div id="exercise">
+  <!-- 1) Efekti Butona basarak başlatın. Efekt "highlight" ve/veya "shrink" class'ları arasında değişmelidir. Bu değişim her bir interval döngüsünde olmalıdır. ("effect" id' li div'e o anki aktif olan class eklenecektir.) -->
+  <div>
+    <button @click="startEffect">Efekti Başlat!</button>
+    <div id="effect" :class="updateEffectClass"></div>
+  </div>
+  <!-- 2) Birkaç tane CSS Class'ı üreterek bu Class'ları Array Syntax'ı ile aşağıdaki <div>' e ekleyiniz -->
+  <div :class="['fontCss1','bgCss1']">Artık bir class'ım var :)</div>
+  <!-- 3) Örnek birkaç tane Class üreterek (Ya da ürettiklerinizi kullanarak) <input> içerisine Class adı girerek hemen alttaki <div> elementine bu yazılan Class'ı eklemeyi yapınız. -->
+  <div>
+    <input type="text" v-model="inputForCss">fontCss1 / bgCss1 / progress
+    <div :class="inputForCss">i love vue.js</div>
+  </div>
+  <!-- 4) Kullanıcının Class isimlerini girebileceği iki adet <input> elementimiz var. Bunları kullanarak hemen alttaki <div> elementinin Class'larini attached etmesini sağlayınız  -->
+  <div>
+    <input type="text" v-model="inputForCss2">fontCss1 / bgCss1 / progress
+    <input type="text" v-model="inputForCss3">fontCss1 / bgCss1 / progress
+    <div :class="[inputForCss2,inputForCss3]">Some example text</div>
+  </div>
+  <!-- 5) 3.Uygulamayı tekrarlayın. Fakat bu sefer Class Adı yerine Denk gelecek Style Kodlarını ekleyiniz.  -->
+  <div>
+    <input type="text" v-model="inputForStyle">add numeric value for width of below div
+    <div class="bgCss1" :style="{width:inputForStyle + 'px'}">Here is width</div>
+  </div>
+  <!-- 6) setInterval ve Style Binding kullanarak Basit bir progress bar üretin. Progress bar' ın çalışmasını buton'a basarak başlatın. -->
+  <div>
+    <button v-on:click="startProgress">Progress İşlemini Başlat!</button>
+    <div class="progress" :style="{width : progressWidth + 'px'}"></div>
+  </div>
+</div>
+<script type="text/javascript">
+  new Vue({
+      el: '#exercise',
+      data: {
+        effectClass : false,
+        inputForCss : '',
+        inputForCss2 : '',
+        inputForCss3 : '',
+        inputForStyle : 87,
+        progressWidth: 0
+      },
+      methods: {
+        startEffect: function () {
+          var bu = this;
+          setInterval(function(){
+            bu.effectClass = !bu.effectClass;
+          },2000);
+        },
+        startProgress: function () {
+          var vm = this;
+          setInterval(function () {
+            vm.progressWidth += 10;
+          }, 300);
+        }
+      },
+      computed: {
+        updateEffectClass: function () {
+          return {
+            highlight: this.effectClass,
+            shrink: !this.effectClass
+          }
+        }
+      }
+
+    });
+
+</script>

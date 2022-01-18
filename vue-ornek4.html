@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="tr-TR">
+<head>
+<title>Vue.js öğreniyorum</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<style>
+
+</style>
+</head>
+
+<body>
+<div id=app4 style="width:100%;">
+    <p v-if="show" style="background-color: green;"> -if-show = {{show}} -</p>
+    <p v-if="!show" style="background-color: gray;"> -if-!show = {{show}} -</p>
+    <p v-if="!show" style="background-color: gray;"> -if-else show = {{show}} -</p>
+    <button @click="show = !show">Toggle visibility</button>
+    <hr>
+    <button @click="show2 = !show2">Toggle visibility 2</button>
+    <p v-show="show2" style="background-color: green;"> -show show2 = {{show2}}</p>
+    <p v-show="!show2" style="background-color: gray;"> -show !show2 = {{show2}}</p>
+    <hr>
+    <button @click="urunler.push('Yeni Ürün')">Yeni Ürün Ekle</button>
+    <ul>
+        <li v-for="(urun, sira) in urunler" :key="urun">{{(sira+1) + " - " + urun}}</li>
+    </ul>
+    <div v-once v-for="(product, index) in urunler" style="border: 1px solid black; margin-bottom: 5px; font-size:11px">
+        <h3>{{product}}</h3>
+        <p>{{index+1}}</p>
+    </div>
+    <hr>
+    <ul>
+        <li v-for="(kisi, sirasi) in kisiler">{{(sirasi+1) + " - " + kisi.name + " - " + kisi.position}}</li>
+    </ul>
+    <hr>
+    <ul>
+        <li v-for="(kisi, sirasi) in kisiler">
+            <ul>
+                <li v-for="(detay , key) in kisi"><strong>{{ key + ' : ' }}</strong>{{ detay }}</li>
+            </ul>
+            <br>
+        </li>
+    </ul>
+
+</div>
+
+<script type="text/javascript">
+    new Vue({
+        el : "#app4",
+        data : {
+            show : true,
+            show2 : true,
+            urunler : ["Monitör","Klavye","Askı","Masa"],
+            kisiler : [
+                { name: "Tiger Nixon", position: "System Architect"},
+                { name: "Ashton Cox", position: "Accountant"},
+                { name: "Cedric Kelly", position: "Junior Technical Author"},
+                { name: "Garrett Winters", position: "Senior Javascript Developer"},
+            ]
+        },
+
+    });
+</script>
+
+</body>
+</html>
