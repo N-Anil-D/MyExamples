@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canavar Avı</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">OYUNCU</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width:player_hp+'%'}">
+                    {{ player_hp }}
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">CANAVAR</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width:monster_hp+'%'}">
+                    {{ monster_hp }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row controls" v-if="!game">
+        <div class="small-12 columns">
+            <button id="start-game" @click="start_game">YENİ OYUN</button>
+        </div>
+    </section>
+    <section class="row controls" v-if="game">
+        <div class="small-12 columns">
+            <button id="attack" @click="attack">SALDIRI</button>
+            <button id="special-attack" @click="special_attack">ÖZEL SALDIRI</button>
+            <button id="heal" @click="heal">İLK YARDIM</button>
+            <button id="give-up" @click="give_up">PES ET!</button>
+        </div>
+    </section>
+    <section class="row log" v-if="logs.length">
+        <div class="small-12 columns">
+            <ul>
+                <li v-for="olay in logs" :class="{'player-turn': olay.turn=='p' , 'monster-turn': olay.turn=='m'}">{{olay.text}}</li>
+            </ul>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    new  Vue({
+        el : "#app",
+        data : {
+            player_hp : 100,
+            monster_hp : 100,
+            game : false,
+            special_attack_avaliable : true,
+            logs : []
+        },
+        methods: {
+            start_game : function(){
+                this.game = true;
+                this.player_hp = 100;
+                this.monster_hp = 100;
+                this.logs = [];
+            },
+            attack : function(){
+                var damage_to_monster = Math.ceil(Math.random()*11);
+                var damage_to_player = Math.ceil(Math.random()*10);
+                this.monster_hp -= damage_to_monster;
+                this.player_hp -= damage_to_player;
+                this.damage_text({turn:"p",text:"OYUNCUNUN SALDIRISI ("+ damage_to_monster +") VURDU"});
+                this.damage_text({turn:"m",text:"CANAVARIN SALDIRISI ("+ damage_to_player +") VURDU"});
+            },
+            special_attack : function(){
+                if(this.special_attack_avaliable){
+                    var damage_to_monster = Math.ceil(Math.random() * 40);
+                    var damage_to_player = Math.ceil(Math.random() * 10);
+                    this.monster_hp -= damage_to_monster;
+                    this.player_hp -= damage_to_player;
+                    this.special_attack_avaliable = false;
+                    this.damage_text({ turn: "p", text: "OYUNCUNUN ÖZEL SALDIRISI (" + damage_to_monster + ") VURDU" });
+                    this.damage_text({ turn: "m", text: "CANAVARIN SALDIRISI (" + damage_to_player + ") VURDU" });
+                }else{
+                    alert("'ÖZEL SALDIRI' tek bir dövüşte tek bir defa kullanılabilir.")
+                }
+            },
+            heal : function(){
+                var damage_to_player = Math.ceil(Math.random() * 10);
+                this.player_hp += damage_to_player*1.5;
+                this.player_hp -= damage_to_player;
+                this.damage_text({ turn: "p", text: "OYUNCUNUN İYİLEŞTİRMESİ (" + damage_to_player * 1.5 + ") İYİLEŞTİRDİ" });
+                this.damage_text({ turn: "m", text: "CANAVARIN SALDIRISI (" + damage_to_player + ") VURDU" });
+
+            },
+            give_up : function(){
+                this.player_hp=0;
+                this.damage_text({ turn: "p", text: "OYUNCUNU PES ETTİ" });
+            },
+            damage_text : function(log){
+                this.logs.push(log);
+            }
+
+        },
+        watch : {
+            player_hp : function(hp){
+                if(hp <= 0){
+                    this.player_hp = 0;
+                    this.game = false;
+                    if(confirm("Oyunu canavar kazandı. Oyun tekrardan başlasın mı?")){
+                        this.logs = [];
+                        this.player_hp  = 100;
+                        this.monster_hp = 100;
+                    };
+                }else if(hp >=100){
+                    this.player_hp = 100;
+                }
+            },
+            monster_hp : function(hp){
+                if (hp <= 0) {
+                    this.monster_hp = 0;
+                    this.game = false;
+                    if (confirm("Oyunu oyuncu kazandı. Oyun tekrardan başlasın mı?")) {
+                        this.logs = [];
+                        this.player_hp = 100;
+                        this.monster_hp = 100;
+                    };
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
