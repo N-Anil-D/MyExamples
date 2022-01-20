@@ -55,7 +55,8 @@
             monster_hp : 100,
             game : false,
             special_attack_avaliable : true,
-            logs : []
+            logs : [],
+            heal_limit : 2
         },
         methods: {
             start_game : function(){
@@ -86,11 +87,16 @@
                 }
             },
             heal : function(){
-                var damage_to_player = Math.ceil(Math.random() * 10);
-                this.player_hp += damage_to_player*1.5;
-                this.player_hp -= damage_to_player;
-                this.damage_text({ turn: "p", text: "OYUNCUNUN İYİLEŞTİRMESİ (" + damage_to_player * 1.5 + ") İYİLEŞTİRDİ" });
-                this.damage_text({ turn: "m", text: "CANAVARIN SALDIRISI (" + damage_to_player + ") VURDU" });
+                if(this.heal_limit>0){
+                    var damage_to_player = Math.ceil(Math.random() * 10);
+                    this.player_hp += damage_to_player*1.5;
+                    this.player_hp -= damage_to_player;
+                    this.damage_text({ turn: "p", text: "OYUNCUNUN İYİLEŞTİRMESİ (" + damage_to_player * 1.5 + ") İYİLEŞTİRDİ" });
+                    this.damage_text({ turn: "m", text: "CANAVARIN SALDIRISI (" + damage_to_player + ") VURDU" });
+                    this.heal_limit--;
+                }else{
+                    alert("Heal bir dövüşte 2'den fazla kullanılamaz.");
+                }
 
             },
             give_up : function(){
